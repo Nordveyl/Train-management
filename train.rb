@@ -28,6 +28,7 @@ class Train
 	def set_route(route) 
 		@stations_of_route = route.stations
 		@current_station = @stations_of_route[0]
+		@current_station.add_train(self)
 		@i=0
 	end 
 
@@ -37,9 +38,13 @@ class Train
 
 	def change_station (count) # 1 or -1
 		if count == 1
-				@current_station = @stations_of_route[@i +=1 ] 
+				@current_station = @stations_of_route[@i +=1 ]
+				@current_station.add_train(self)
+				@stations_of_route[@i -=1 ].delete_train(self)
 			elsif count == -1	
 				@current_station = @stations_of_route[@i -=1 ]
+				@current_station.add_train(self)
+				@stations_of_route[@i +=1 ].delete_train(self)
 		end
 	end 
 	
