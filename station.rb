@@ -1,28 +1,33 @@
 class Station 
-	attr_reader :name, :type 
+  attr_reader :name, :type, :trains_on_station #последнее возвращает список всех поездов на станции, находящиеся в текущий момент
 
-	def initialize(name)
-		@name = name 
-		@trains = []
-	end 
+  def initialize(name)
+    @name = name 
+    @trains_on_station = []
+  end 
 
-	def add_train(train) #принимает поезда (по одному за раз)
-		@trains << train
-	end
-
-	def show_trains_names #возвращает список всех поездов на станции, находящиеся в текущий момент 
-		trains_name = []
-    @trains.each { |train| trains_name << train.number } 
-    trains_name 
+  def add_train(train) #принимает поезда (по одному за раз)
+    @trains_on_station << train
   end
 
-  def show_count_trains_types #возвращает список поездов на станции по типу 
-  	trains_types = []
-    @trains.each { |train| trains_types << train.type } 
-    count_trains_types = { 'passenger' => trains_types.count('passenger') , 'freight' => trains_types.count('freight') }
-  end
+  def count_trains_of_type (type)  
+    k = 0
+    @trains_on_station.each { |train| 
+    if train.type == type 
+      k =k +1
+    end   } 
+    k 
+  end  
+
+  def trains_of_type(type)
+    trains_type = []
+    @trains_on_station.each { |train| 
+    if train.type == type 
+      trains_type << train 
+    end   } 
+  end  
 
   def delete_train (train) #отправляет поезда 
-  	@trains.delete(train)
-  end	
+    @trains_on_station.delete(train)
+  end 
 end
