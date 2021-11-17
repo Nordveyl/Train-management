@@ -49,7 +49,7 @@ class Train
     else   
       @current_station = @current_route.stations[@i +=1 ]
       @current_station.add_train(self)
-      @current_route.stations[@i -=1 ].delete_train(self)
+      @current_route.stations[@i -1 ].delete_train(self)
     end  
   end
 
@@ -59,7 +59,7 @@ class Train
     else
         @current_station = @current_route.stations[@i -=1 ]
         @current_station.add_train(self)
-        @current_route.stations[@i +=1 ].delete_train(self)
+        @current_route.stations[@i +1 ].delete_train(self)
     end
   end 
   
