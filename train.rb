@@ -6,7 +6,6 @@ class Train
     @type = type 
     @count_wagons = count_wagons
     @current_speed = 0
-    @stations_of_route = []
   end 
 
   def stop 
@@ -15,28 +14,20 @@ class Train
   
   def add_wagon 
     if @current_speed == 0
-      @count_wagons +=1
-    else 
-      puts ('Stop the train')   
+      @count_wagons +=1   
     end   
   end 
 
   def delete_wagon 
     if @current_speed == 0
-      @count_wagons -=1
-    else 
-      puts ('Stop the train')   
+      @count_wagons -=1   
     end   
   end 
 
   def set_route(route) 
     @current_route = route
-     if @current_station != nil 
-      @current_station.delete_train(self)
-     end 
-    @current_station = route.stations[0]
-    @current_station.add_train(self)
-    @i=0
+    @i = 0
+    @current_route.stations[@i].add_train(self)
   end 
 
   def gain_speed(speed)
@@ -44,38 +35,34 @@ class Train
   end 
 
   def go_to_next_station 
-    if @current_route.stations.length - 1 == @i 
-      puts ('You are on the last station')
-    else   
-      @current_station = @current_route.stations[@i +=1 ]
-      @current_station.add_train(self)
+    if self.next_station 
+      @current_route.stations[@i +=1 ].add_train(self)
       @current_route.stations[@i -1 ].delete_train(self)
     end  
   end
 
   def go_to_previous_station
-    if @i == 0 
-      puts ('You are on the first station')
-    else
-        @current_station = @current_route.stations[@i -=1 ]
-        @current_station.add_train(self)
+    if self.previous_station  
+        @current_route.stations[@i -=1 ].add_train(self)
         @current_route.stations[@i +1 ].delete_train(self)
     end
   end 
   
-  def get_next_station
-    if @current_route.stations.length - 1 == @i 
-      puts ('You are on the last station')
-    else   
-    @current_route.stations[@i+1]
+  def next_station
+    if @current_route.stations.length - 1 != @i and @current_route  
+      @current_route.stations[@i+1]
     end
   end 
   
-  def get_previous_station 
-    if @i == 0 
-      puts ('You are on the first station')
-    else
-    @current_route.stations[@i-1]
+  def previous_station 
+    if @i != 0 and @current_route 
+      @current_route.stations[@i-1]
     end
-  end   
+  end  
+
+  def current_station
+    if @current_route
+      @current_route.stations[@i]
+    end   
+  end     
 end
