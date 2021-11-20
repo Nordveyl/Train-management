@@ -11,7 +11,7 @@ class Station
   end  
 
   def trains_of_type(type)
-    @trains_on_station.select { |train| train.type == type }  
+    @trains_on_station.filter { |train| train.type == type }  
   end 
 
   def count_trains_of_type (type)  
