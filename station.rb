@@ -8,27 +8,15 @@ class Station
 
   def add_train(train) #принимает поезда (по одному за раз)
     @trains_on_station << train
-  end
-
-  def count_trains_of_type (type)  
-    k = 0
-    @trains_on_station.each do |train| 
-      if train.type == type 
-        k += 1
-      end   
-    end
-    k
   end  
 
   def trains_of_type(type)
-    trains_type = []
-    @trains_on_station.each do |train| 
-      if train.type == type 
-        trains_type << train 
-      end 
-    end 
-    trains_type  
-  end  
+    @trains_on_station.select { |train| train.type == type }  
+  end 
+
+  def count_trains_of_type (type)  
+    trains_of_type(type).size 
+  end 
 
   def delete_train (train) #отправляет поезда 
     @trains_on_station.delete(train)
