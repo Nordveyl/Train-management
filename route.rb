@@ -15,6 +15,8 @@ class Route
     @stations.delete(station)
   end   
 
+  private #Внёс этот метод в Private, так как пользователь не может вызвать этот метод и классов потомков у него нету
+
   def show_stations 
     stations.each { |station| puts station.name }
   end 
