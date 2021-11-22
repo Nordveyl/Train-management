@@ -13,6 +13,10 @@ class Interface
     @stations = []
     @trains = []
     @routes = []
+    @index_train = 0
+    @index_statuin = 0
+    @index_route = 0
+
   end  
   def main_menu 
     puts" Введите цифру объекта, с которым вы хотите взаимодействовать:\n
@@ -50,8 +54,7 @@ private #поместил эти методы в private, так как поль
       station_menu
     when 3
       index_of_station
-      index = gets.chomp.to_i
-      @stations[index].trains_on_station.each {|train| puts train.number}
+      @stations[@index_station].trains_on_station.each {|train| puts train.number}
       station_menu
     when 0
       main_menu
@@ -73,18 +76,15 @@ private #поместил эти методы в private, так как поль
       train_menu
     when 2
       index_of_train 
-      index = gets.chomp.to_i 
-      add_wagon_to_train(@trains[index])
+      add_wagon_to_train(@trains[@index_train])
       train_menu
     when 3 
-      index_of_train 
-      index = gets.chomp.to_i 
-      delete_wagon_to_train(@trains[index])
+      index_of_train  
+      delete_wagon_to_train(@trains[@index_train])
       train_menu
     when 4 
       index_of_train
-      index = gets.chomp.to_i
-      move_train(@trains[index])
+      move_train(@trains[@index_train])
       train_menu
     when 0
       main_menu
@@ -106,24 +106,18 @@ private #поместил эти методы в private, так как поль
       route_menu 
     when 2
       index_of_route
-      index_route = gets.chomp.to_i
       index_of_station
-      index_station = gets.chomp.to_i
-      add_station_on_route(@routes[index_route], @stations[index_station]) 
+      add_station_on_route(@routes[@index_route], @stations[@index_station]) 
       route_menu 
     when 3
       index_of_route
-      index_route = gets.chomp.to_i
       index_of_station
-      index_station = gets.chomp.to_i
-      delete_station_on_route(@routes[index_route], @stations[index_station])
+      delete_station_on_route(@routes[@index_route], @stations[@index_station])
       route_menu 
     when 4
       index_of_route
-      index_route = gets.chomp.to_i
       index_of_train
-      index = gets.chomp.to_i
-      set_route_to_train(@routes[index_route], @trains[index]) 
+      set_route_to_train(@routes[@index_route], @trains[@index_train]) 
       route_menu 
     when 0
       main_menu  
@@ -156,16 +150,19 @@ private #поместил эти методы в private, так как поль
   def index_of_train 
     puts 'Выберите поезд по индексу'
     @trains.each { |train| puts "#{@trains.index(train)} <<< #{train.number}" }
+    @index_train = gets.chomp.to_i
   end 
 
   def index_of_station 
     puts 'Выберите станцию по индексу'
     @stations.each { |station| puts "#{@stations.index(station)} <<< #{station.name}" }
+    @index_station = gets.chomp.to_i
   end  
   
   def index_of_route 
     puts 'Выберите маршрут'
     @routes.each { |route| puts "#{@routes.index(route)} <<< #{route}" }
+    @index_route = gets.chomp.to_i
   end  
 
   def create_route 
