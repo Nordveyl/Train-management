@@ -1,6 +1,6 @@
 class Train 
   attr_accessor :current_speed, :current_station
-  attr_reader :count_wagons, :number, :type, :wagons, :stations 
+  attr_reader :count_wagons, :number, :type, :wagons
   def initialize (number, type) #Type: passenger or cargo
     @number = number
     @type = type 
@@ -9,7 +9,7 @@ class Train
   end 
 
   def add_wagon(wagon) 
-    if @current_speed == 0 and wagon.type == type 
+    if @current_speed == 0 && wagon.type == type 
       @wagons << wagon    
     end   
   end 
