@@ -166,11 +166,10 @@ private #поместил эти методы в private, так как поль
   end  
 
   def create_route 
-    index_of_station
     puts 'Введите индекс начальной и конечной станции из списка:'
-    index_of_first_station = gets.chomp.to_i
+    index_of_station
     index_of_last_station = gets.chomp.to_i   
-    route = Route.new(@stations[index_of_first_station], [index_of_last_station])
+    route = Route.new(@stations[@index_station], [index_of_last_station])
     @routes << route
   end  
 
