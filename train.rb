@@ -23,7 +23,7 @@ class Train
   end       
 
   def add_wagon(wagon) 
-    if @current_speed == 0 and wagon.type == type 
+    if @current_speed == 0 && wagon.type == type 
       @wagons << wagon    
     end   
   end 
