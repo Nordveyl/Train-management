@@ -1,15 +1,29 @@
 class Train 
+  include Company, InstanceCounter
   attr_accessor :current_speed, :current_station
-  attr_reader :count_wagons, :number, :type, :wagons
+  attr_reader :count_wagons, :number, :type, :wagons 
+  
   def initialize (number, type) #Type: passenger or cargo
     @number = number
     @type = type 
     @current_speed = 0
     @wagons = []
+    @@all_trains << self 
+    register_instance
   end 
 
+  @@all_trains = []
+
+  def self.find(number) 
+    found_train =  @@all_trains.filter { |train| train.number == number } 
+    if found_train == []
+      found_train = nil
+    end   
+    found_train
+  end       
+
   def add_wagon(wagon) 
-    if @current_speed == 0 && wagon.type == type 
+    if @current_speed == 0 and wagon.type == type 
       @wagons << wagon    
     end   
   end 
@@ -28,8 +42,8 @@ class Train
 
   def go_to_next_station 
     if self.next_station 
-      @current_route.stations[@i +=1 ].add_train(self)
-      @current_route.stations[@i -1 ].delete_train(self)
+      @current_route.stations[@i +=1].add_train(self)
+      @current_route.stations[@i -1].delete_train(self)
     end  
   end
 
@@ -40,7 +54,7 @@ class Train
     end
   end 
 
-  protected #Внёс эти методы в Protected, так как пользователь не может вызвать эти методы, но классам потомкам они нужны 
+  protected 
   
   def stop
     @current_speed = 0
