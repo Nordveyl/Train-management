@@ -1,10 +1,8 @@
-module Company  
-  
+module Company 
+attr_reader :company 
   def add_company(company) 
-    @company = company
-  end 
-  
-  def company 
-    @company
+    if not company.empty?
+      @company = company
+    end 
   end 
 end 
