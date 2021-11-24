@@ -65,13 +65,13 @@ class Train
   end 
 
   def next_station
-    if @current_route.stations.length - 1 != @i and @current_route  
+    if @current_route.stations.length - 1 != @i && @current_route  
       @current_route.stations[@i+1]
     end
   end 
   
   def previous_station 
-    if @i != 0 and @current_route 
+    if @i != 0 && @current_route 
       @current_route.stations[@i-1]
     end
   end  
