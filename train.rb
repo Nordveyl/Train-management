@@ -1,26 +1,22 @@
 class Train 
   attr_accessor :current_speed, :current_station
-  attr_reader :count_wagons, :number, :type 
-  def initialize (number, type, count_wagons) #Type: passenger or freight
+  attr_reader :count_wagons, :number, :type, :wagons
+  def initialize (number, type) #Type: passenger or cargo
     @number = number
     @type = type 
-    @count_wagons = count_wagons
     @current_speed = 0
+    @wagons = []
   end 
 
-  def stop 
-    @current_speed = 0
-  end 
-  
-  def add_wagon 
-    if @current_speed == 0
-      @count_wagons +=1   
+  def add_wagon(wagon) 
+    if @current_speed == 0 && wagon.type == type 
+      @wagons << wagon    
     end   
   end 
 
   def delete_wagon 
-    if @current_speed == 0
-      @count_wagons -=1   
+    if @current_speed == 0 
+      @wagons.pop   
     end   
   end 
 
@@ -28,10 +24,6 @@ class Train
     @current_route = route
     @i = 0
     @current_route.stations[@i].add_train(self)
-  end 
-
-  def gain_speed(speed)
-    @current_speed = speed 
   end 
 
   def go_to_next_station 
@@ -43,11 +35,21 @@ class Train
 
   def go_to_previous_station
     if self.previous_station  
-        @current_route.stations[@i -=1 ].add_train(self)
-        @current_route.stations[@i +1 ].delete_train(self)
+      @current_route.stations[@i -=1 ].add_train(self)
+      @current_route.stations[@i +1 ].delete_train(self)
     end
   end 
+
+  protected #Внёс эти методы в Protected, так как пользователь не может вызвать эти методы, но классам потомкам они нужны 
   
+  def stop
+    @current_speed = 0
+  end 
+  
+  def gain_speed(speed)
+    @current_speed = speed 
+  end 
+
   def next_station
     if @current_route.stations.length - 1 != @i and @current_route  
       @current_route.stations[@i+1]
