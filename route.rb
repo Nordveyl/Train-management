@@ -1,10 +1,12 @@
 class Route
+  include InstanceCounter
   attr_reader :stations
 
   def initialize (first, last)
     @stations = []
     @stations << first 
     @stations << last
+    register_instance
   end 
 
   def add_station (station)
@@ -15,7 +17,7 @@ class Route
     @stations.delete(station)
   end   
 
-  private #Внёс этот метод в Private, так как пользователь не может вызвать этот метод и классов потомков у него нету
+  private 
 
   def show_stations 
     stations.each { |station| puts station.name }

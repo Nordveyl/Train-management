@@ -1,9 +1,17 @@
 class Station 
-  attr_reader :name, :type, :trains_on_station #последнее возвращает список всех поездов на станции, находящиеся в текущий момент
+  include InstanceCounter
+  attr_reader  :name, :type, :trains_on_station 
+  @@all_stations = []
+  
+  def self.all 
+    @@all_stations
+  end   
 
   def initialize(name)
     @name = name 
     @trains_on_station = []
+    @@all_stations << self 
+    register_instance
   end 
 
   def delete_train (train)  
@@ -14,7 +22,7 @@ class Station
     @trains_on_station << train
   end
 
-  private #Внёс эти методы в pivate, так как классов потомков нету, а пользователю эти методы недоступны
+  private 
   
   def trains_of_type(type)
     @trains_on_station.filter { |train| train.type == type }  
