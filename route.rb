@@ -1,5 +1,5 @@
 class Route
-  include InstanceCounter
+  include InstanceCounter, Valid
   attr_reader :stations
 
   def initialize (first, last)
@@ -7,6 +7,7 @@ class Route
     @stations << first 
     @stations << last
     register_instance
+    validate!
   end 
 
   def add_station (station)
@@ -22,4 +23,9 @@ class Route
   def show_stations 
     stations.each { |station| puts station.name }
   end 
+
+  def validate! 
+    raise "The first station must be an object of class Station " if stations[0].class != Station
+    raise "The last station must be an object of class Station " if stations[1].class != Station
+  end  
 end
