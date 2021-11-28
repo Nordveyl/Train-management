@@ -21,8 +21,8 @@ class Train
     found_train =  @@all_trains.filter { |train| train.number == number } 
     if found_train == []
       found_train = nil
-    end   
-    found_train
+    end
+    found_train  
   end       
 
   def add_wagon(wagon) 
@@ -55,7 +55,11 @@ class Train
       @current_route.stations[@i -=1 ].add_train(self)
       @current_route.stations[@i +1 ].delete_train(self)
     end
-  end 
+  end   
+
+  def each_wagon 
+    @wagons.each {|wagon| yield(wagon)}
+  end   
 
   protected 
   
@@ -88,5 +92,5 @@ class Train
   def validate!
     raise 'Number of train must be XXXXX or XXX-XX' if number !~ NUMBER_FORMAT 
     raise "Types of train: cargo, passenger" if  type != 'cargo' && type != 'passenger'
-  end    
+  end   
 end
