@@ -23,8 +23,12 @@ class Station
     @trains_on_station << train
   end
 
-  private 
-  
+  def each_train_on_staion 
+    @trains_on_station.each {|train| yield(train)}
+  end   
+
+  private
+
   def trains_of_type(type)
     @trains_on_station.filter { |train| train.type == type }  
   end 
