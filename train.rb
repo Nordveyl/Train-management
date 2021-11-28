@@ -1,5 +1,5 @@
 class Train 
-  include Company, InstanceCounter
+  include Company, InstanceCounter, Valid
   attr_accessor :current_speed, :current_station
   attr_reader :count_wagons, :number, :type, :wagons 
   
@@ -10,9 +10,12 @@ class Train
     @wagons = []
     @@all_trains << self 
     register_instance
+    validate!
   end 
 
   @@all_trains = []
+
+  NUMBER_FORMAT = /^\w{3}-?\w{2}$/
 
   def self.find(number) 
     found_train =  @@all_trains.filter { |train| train.number == number } 
@@ -80,5 +83,10 @@ class Train
     if @current_route
       @current_route.stations[@i]
     end   
-  end     
+  end 
+
+  def validate!
+    raise 'Number of train must be XXXXX or XXX-XX' if number !~ NUMBER_FORMAT 
+    raise "Types of train: cargo, passenger" if  type != 'cargo' && type != 'passenger'
+  end    
 end

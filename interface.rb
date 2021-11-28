@@ -134,18 +134,22 @@ class Interface
   end    
 
   def create_train 
-    puts 'Введите номер поезда и тип (passenger или cargo)'
+    puts 'Введите номер XXX-XX или XXXXX поезда и тип (passenger или cargo)'
     number_of_train = gets.chomp
     type_of_train = gets.chomp 
-    if number_of_train != '' and type_of_train!= ''
-      if type_of_train == 'cargo'
-        train = CargoTrain.new(number_of_train) 
-      elsif type_of_train == 'passenger'
-        train = PassengerTrain.new(number_of_train) 
-      end
+    if type_of_train == 'cargo'
+      train = CargoTrain.new(number_of_train) 
+    elsif type_of_train == 'passenger'
+      train = PassengerTrain.new(number_of_train)
+    else 
+      train = PassengerTrain.new(number_of_train, type_of_train)  
+    end
       @trains << train
-    end     
-  end 
+      puts "#{train} успешно создан"
+  rescue RuntimeError
+    puts 'Ошибка ввода данных'
+    retry
+  end  
   
   def index_of_train 
     puts 'Выберите поезд по индексу'

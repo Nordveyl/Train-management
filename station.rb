@@ -1,5 +1,5 @@
 class Station 
-  include InstanceCounter
+  include InstanceCounter, Valid
   attr_reader  :name, :type, :trains_on_station 
   @@all_stations = []
   
@@ -12,6 +12,7 @@ class Station
     @trains_on_station = []
     @@all_stations << self 
     register_instance
+    validate!
   end 
 
   def delete_train (train)  
@@ -31,4 +32,8 @@ class Station
   def count_trains_of_type (type)  
     trains_of_type(type).size 
   end 
+
+  def validate!
+    raise "station name can't be empty" if name.empty?
+  end   
 end
