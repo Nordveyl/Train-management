@@ -1,7 +1,8 @@
 class Train 
-  include Company, InstanceCounter, Valid
+  include Company, InstanceCounter, Validation
   attr_accessor :current_speed, :current_station
-  attr_reader :count_wagons, :number, :type, :wagons 
+  attr_reader :count_wagons, :number, :type, :wagons
+  validate :number, :format, /^\w{3}-?\w{2}$/
   
   def initialize (number, type) #Type: passenger or cargo
     @number = number
@@ -45,15 +46,15 @@ class Train
 
   def go_to_next_station 
     if self.next_station 
-      @current_route.stations[@i +=1].add_train(self)
-      @current_route.stations[@i -1].delete_train(self)
+      @current_route.stations[@i+=1].add_train(self)
+      @current_route.stations[@i-1].delete_train(self)
     end  
   end
 
   def go_to_previous_station
     if self.previous_station  
-      @current_route.stations[@i -=1 ].add_train(self)
-      @current_route.stations[@i +1 ].delete_train(self)
+      @current_route.stations[@i-=1 ].add_train(self)
+      @current_route.stations[@i+1 ].delete_train(self)
     end
   end   
 
@@ -62,7 +63,7 @@ class Train
   end   
 
   protected 
-  
+
   def stop
     @current_speed = 0
   end 
@@ -72,7 +73,7 @@ class Train
   end 
 
   def next_station
-    if @current_route.stations.length - 1 != @i && @current_route  
+    if @current_route.stations.length -1 != @i && @current_route  
       @current_route.stations[@i+1]
     end
   end 
@@ -88,9 +89,4 @@ class Train
       @current_route.stations[@i]
     end   
   end 
-
-  def validate!
-    raise 'Number of train must be XXXXX or XXX-XX' if number !~ NUMBER_FORMAT 
-    raise "Types of train: cargo, passenger" if  type != 'cargo' && type != 'passenger'
-  end   
 end
