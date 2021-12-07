@@ -28,19 +28,26 @@ module Validation
         varname = "@#{key}".to_sym
         key = instance_variable_get(varname)
         i = 0
-        value.each do |x|
-          if x == :presence  
-            raise 'Name can not be empry' if key.empty?
-            raise 'Name can not be nil' if key == nil 
-          elsif x == :format 
-            raise 'Format error'if key !~ value[i+1] 
-          elsif x == :type  
-            raise 'Type error' if key.class != value[i+1] 
-          end 
-          i +=1
+        loop do
+          send("validate_#{value[i].to_s}".to_sym, key, value, i)
+          i +=2
+          break if value[i] == nil    
         end 
-      end       
+      end     
     end 
+
+    def validate_type(key, value,i)
+      raise 'Type error' if key.class != value[i+1]
+    end 
+
+    def validate_format(key, value, i) 
+      raise 'Format error'if key !~ value[i+1]
+    end 
+    
+    def validate_presence(key, value, i= nil )
+      raise 'Name can not be empry' if key.empty?
+      raise 'Name can not be nil' if key == nil    
+    end   
 
     def valid? 
       validate!
